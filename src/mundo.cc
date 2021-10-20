@@ -73,7 +73,7 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
         break;
 
         case 1:
-                std::cout << "Introduzca el porcentaje de obstáculos (valor comprendido entre 0 y 100): " << std:: endl;
+                std::cout << "Introduzca el porcentaje de obstáculos manuales(valor comprendido entre 0 y 100): " << std:: endl;
                 std::cin >> obstacle_percentage;
                 while ((obstacle_percentage < 0) || (obstacle_percentage > 100)) {
                     std::cout << "ERROR: valor fuera del rango entre 0 y 100." << std::endl;
@@ -247,7 +247,7 @@ void World::PrintWorld(void) {
             if (GetWorldState(i,j) == '0') {
                 std::cout << "\033[;36m0\033[0m";
             }else if (GetWorldState(i,j) == 'X') {
-                std::cout << "\033[;32mX\033[0m";
+                std::cout << "\033[;33mX\033[0m";
             }else {
                 std::cout <<  GetWorldState(i,j) ;
             }
@@ -289,7 +289,7 @@ void World::PrintGrid(Vehicle* vehicle){
                 else if (GetWorldState(i,j) == '0') {
                     std::cout << "\033[;36m0\033[0m";
                 }else if (GetWorldState(i,j) == 'X') {
-                    std::cout << "\033[;32mX\033[0m";
+                    std::cout << "\033[;33mX\033[0m";
                 }else {
                     std::cout <<  GetWorldState(i,j) ;
                 }

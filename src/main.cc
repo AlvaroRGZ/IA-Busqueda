@@ -137,7 +137,7 @@ do {
     
     destination_row += row_min;
     
-} while ((pWorld->GetWorldValue(destination_row, destination_col)) == true);
+} while ((pWorld->GetWorldState(destination_row, destination_col)) == '0');
         // mientras la dirección de origen esté ocupada por un obstáculo se repite el proceso de instertar dirección de origen
 
 
