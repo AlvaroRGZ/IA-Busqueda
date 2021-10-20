@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #include "../include/simulacion.h"
 
 int main( void /* int argc, char* argv[]*/ ) {
@@ -155,10 +154,3 @@ return 0;
 // Leyenda:
 //  blanca = false = " "
 //  negra  = true  = "X"
-=======
-#include <iostream>
-
-int main (int argc, char* argv[]){
-
-}
->>>>>>> Main
