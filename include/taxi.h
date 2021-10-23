@@ -42,6 +42,7 @@ virtual void Turn45(bool colour){
 }
 
 virtual void Move(void) { // se mueve en el entorno (coordenadas)
+    
     if(direction == 1)
         row_pos += -1;
     else if(direction == 2) {

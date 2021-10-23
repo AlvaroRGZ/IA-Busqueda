@@ -2,12 +2,15 @@ class World;
 
 #include <iostream>
 #include "stdio.h"
+#include "funciones.h"
 #include <vector>
 #pragma once
 
 class Vehicle {
 
     protected:
+
+    funcion_heuristica* funcion_;
 
     int row_pos;
     int column_pos;
