@@ -22,7 +22,8 @@ class Vehicle {
     virtual void Turn45(bool) = 0;
     virtual void Turn45(char) = 0;
 
-    virtual void Move(void) = 0; // hace que avance su posición una casilla en función de su dirección
+    virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
+    virtual void Move_8(funcion_heuristica& f) = 0; 
 
     public:
 

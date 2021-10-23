@@ -71,6 +71,28 @@ virtual void Move(void) { // se mueve en el entorno (coordenadas)
 
 }
 
+
+/**
+ 
+ 
+ virtual void Move(void) {
+    if(direction == 1)
+        row_pos += -1;
+    else if(direction == 2) {
+        column_pos += 1;
+    }
+    else if (direction == 3)
+        row_pos += 1;
+    else if(direction == 4) {
+        column_pos += -1;
+    }
+    else std::cout << "ERROR, direction = " << direction << std::endl;
+}
+};
+ 
+ */
+
+
 virtual void PrintDirection(void){ // imprime las flechas para representar las direcciones que se toman
     int direction = GetDirection();
     switch(direction){
