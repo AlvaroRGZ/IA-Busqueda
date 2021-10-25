@@ -10,7 +10,7 @@ class Vehicle {
 
     protected:
 
-    funcion_heuristica* funcion_;
+  
 
     int row_pos;
     int column_pos;
@@ -22,8 +22,9 @@ class Vehicle {
     virtual void Turn45(bool) = 0;
     virtual void Turn45(char) = 0;
 
-    virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
-    virtual void Move_8(funcion_heuristica& f) = 0; 
+    //virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
+    //virtual void Move_8(funcion_heuristica& f) = 0; 
+    virtual void Move(void) = 0;
 
     public:
 

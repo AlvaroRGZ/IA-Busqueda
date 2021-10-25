@@ -14,6 +14,7 @@ class World {
 
 protected:
 
+funcion_heuristica* funcion_;
 int row;
 int column;
 int size;
@@ -60,6 +61,9 @@ bool GetWorldValue(int, int); // devuelve el estado booleano de una celda
 void SetRow(int);
 void SetColumn(int);
 void SetSize(int);
+
+int GetWorldX(int, int);
+int GetWorldY(int, int);
 
 void SetWorldState(char, int, int); // establecer el "estado" de una celda
 void SetWorldValue(bool, int, int); // establecer el valor booleano de una celda

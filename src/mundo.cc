@@ -30,6 +30,7 @@ World::World(int row_min, int row_max, int col_min, int col_max){
     world.SetLowerLimit(row_min);
     for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++){
         world[i].resize(column);
+        
         world[i].SetLowerLimit(col_min);
     }
 }
@@ -40,9 +41,17 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
     size = row * column;
     world.resize(row);
     world.SetLowerLimit(row_min);
+    //world.SetUpperLimit(col)
     int x, y;
     for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++){
         world[i].resize(column);
+        //std::cout<<world.GetLowerLimit() <<std::endl;
+
+        for (int iter = 0; iter < world.GetUpperLimit(); iter++){
+          //std::cout<<world[i].GetLowerLimit() <<std::endl;
+          world[i][iter].SetPos(i, iter);
+        }
+
         world[i].SetLowerLimit(col_min);
     }
 
@@ -181,17 +190,25 @@ World::~World(){
 // Getters y Setters
 
 char World::GetWorldState(int i, int j) {
-    return world[i][j].state;
+    return world[i][j].GetState();
 }
 
 bool World::GetWorldValue(int i, int j) {
     try{
-       return world[i][j].value; 
+       return world[i][j].GetValue(); 
     }
     
     catch(...){
         throw std::exception();
     }
+}
+
+int World::GetWorldX(int i, int j) {
+    return world[i][j].GetX();
+}
+
+int World::GetWorldY(int i, int j) {
+    return world[i][j].GetY();
 }
 
 void World::SetRow(int row_) {
@@ -207,20 +224,19 @@ void World::SetSize(int size_) {
 }
 
 void World::SetWorldState(char state_, int i, int j) {
-    world[i][j].state = state_;
+    world[i][j].SetState(state_);
 }
 
 void World::SetWorldValue(bool value_, int i, int j) {
-    world[i][j].value = value_;
+    world[i][j].SetValue(value_);
 }
-
 void World::ToggleWorldValue(int i, int j){
     
-   if(world[i][j].value == false){
-        world[i][j].value = true;
+   if(world[i][j].GetValue() == false){
+        world[i][j].SetValue(true);
    }
    else {
-        world[i][j].value = false;
+        world[i][j].SetValue(false);
    }  
 }
 

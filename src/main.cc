@@ -1,6 +1,8 @@
 #include "../include/simulacion.h"
+#include "../include/vector.h"
 
 int main( void /* int argc, char* argv[]*/ ) {
+  
     int row_min, row_max, col_min, col_max, iterations, direction, vehicle_row;
     int vehicle_col, opt, vehicle_chosen, destination_row, destination_col, obstacle_chosen = -1;
     //bool automatic_obstacles;
@@ -24,26 +26,26 @@ if (opt == 0) {
 }
 else if (opt == 1) {
     std::cout << "Introduzca el ANCHO deseado: ";
-    std::cin >> row_min;
-    while (row_min < 0) {
+    std::cin >> row_max;
+    while (row_max < 0) {
         std::cout << "ERROR: valor menor que 0." << std::endl;
         std::cout << "Introduzca el ANCHO deseado: " << std:: endl;
-        std::cin >> row_min;
+        std::cin >> row_max;
     }
 
-    row_min /= -2;
-    row_max = -row_min;
+    row_min = 0;
+  
 
     std::cout << "Introduzca el ALTO: ";
-    std::cin >> col_min;
-    while (col_min < 0) {
+    std::cin >> col_max;
+    while (col_max < 0) {
         std::cout << "ERROR: valor menor que 0" << std::endl;
         std::cout << "Introduzca el ALTO deseado: " << std:: endl;
-        std::cin >> col_min;
+        std::cin >> col_max;
     }
 
-    col_min /= -2;
-    col_max = -col_min;
+    col_min = 0;
+    //col_max = -col_min;
 
     std::cout << "0. ¿Generar automáticamente los obstáculos?\n";
     std::cout << "1. ¿Introducirlos de forma manual?\n";
@@ -64,10 +66,12 @@ else if (opt == 1) {
     }
 }
 
-
-
 World* pWorld;
 pWorld = new MundoAcotado(row_min, row_max, col_min, col_max, obstacle_chosen);
+
+std::cout << std::endl;
+std::cout << pWorld->GetWorldX(5,5) << std::endl;
+std::cout << pWorld->GetWorldY(5,5) << std::endl;
 
 Vehicle* pvehicle;
 

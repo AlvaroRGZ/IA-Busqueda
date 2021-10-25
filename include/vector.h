@@ -18,8 +18,8 @@ std::vector<T> vector;
 public:
 
 Vector() {
-    index_zero = -1;
-    vector.resize(2);
+    //index_zero = 0;
+    //vector.resize(2);
 }
 
 Vector(int min, int max) {
@@ -73,6 +73,10 @@ inline int GetLowerLimit() const {
 
 inline void SetLowerLimit(int min) {
     index_zero = min;
+}
+
+inline void SetUpperLimit(int max) {
+    index_zero = max;
 }
 
 inline int GetSize() const {
