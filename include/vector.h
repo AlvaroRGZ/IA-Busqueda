@@ -83,4 +83,20 @@ inline int GetSize() const {
     return GetUpperLimit() - GetLowerLimit();
 }
 
+void push_back(T& x){
+  vector.push_back(x);
+}
+
+bool Empty (void){
+  return (GetSize() == 0);
+}
+
+int Erase(unsigned int iter){
+  return vector.erase(iter);
+}
+
+unsigned int Begin (void){
+  return vector.begin();
+}
+
 };

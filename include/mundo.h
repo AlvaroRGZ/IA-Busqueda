@@ -1,5 +1,6 @@
 #include "taxi.h"
 #include "vector.h"
+#include "celda.h"
 
 #include <fstream>
 #include <iostream>
@@ -8,13 +9,14 @@
 #include <sstream>
 #include <unistd.h>
 
+
 #pragma once
 
 class World {
 
 protected:
 
-funcion_heuristica* funcion_;
+funcion_heuristica* f_euristica_;
 int row;
 int column;
 int size;
@@ -78,4 +80,16 @@ void PrintGrid (Vehicle*);
 
 bool VehicleOut(Vehicle*);
 void TryPosition(Vehicle*);
+
+bool is_in_set( Cell& c, const Vector<Cell>& s);
+void reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I);
+void CambiarHeuristica(bool opt);
+
+void caminoMinimo(unsigned int xInicio, unsigned int yInicio,
+                  unsigned int xFinal, unsigned int yFinal);
+
+Vector<Cell>
+Astar(unsigned int xInicio, unsigned int yInicio,
+      unsigned int xFinal, unsigned int yFinal);
+
 };

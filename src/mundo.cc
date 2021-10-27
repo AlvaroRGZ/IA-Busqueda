@@ -45,9 +45,13 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
     int x, y;
     for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++){
         world[i].resize(column);
+        //std::cout<<world.GetLowerLimit() <<std::endl;
+
         for (int iter = 0; iter < world.GetUpperLimit(); iter++){
+          //std::cout<<world[i].GetLowerLimit() <<std::endl;
           world[i][iter].SetPos(i, iter);
         }
+
         world[i].SetLowerLimit(col_min);
     }
 
@@ -326,5 +330,139 @@ void World::TryPosition(Vehicle* vehicle){
     catch(std::exception()){
         std::cout << "el taxi se ha salido del mundo!!!" << std::endl;
         throw(std::exception());
+    }
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+bool World::is_in_set(Cell& c, const Vector<Cell>& s){
+    for(unsigned int i = 0; i < s.GetSize(); i++)
+        if((s[i].GetX()== c.GetX()) && s[i].GetY()==c.GetY())
+            return true;
+
+    return false;
+}
+
+void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){
+    Cell a = actual;
+    v.push_back(a);
+    while(a.GetX() != I.GetX() || a.GetY() != I.GetY()){           //Mientras no llegue a la celda inicial
+        //a = world[static_cast<unsigned int>(a.GetPadreX())][static_cast<unsigned int>(a.GetPadreY())];
+        //static en principio no hace falta
+        a = world[a.GetPadreX()][a.GetPadreY()];
+        v.push_back(a);
+    }
+}
+
+Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
+                          unsigned int xFinal, unsigned int yFinal){
+    
+
+    int contador = 0;                                                  // aparece en el codigo, es para quitar el error
+    Vector<Cell> result;                                               // Almacena el camino optimo
+    Vector<Cell> setAbierto;
+    Vector<Cell> setCerrado;
+
+    Cell& Inicial = world[xInicio][yInicio];
+    Cell& Final = world[xFinal][yFinal];
+
+    Inicial.SetG(0);                                                   //Cambiamos valores heuristicos de la primera Celda
+    Inicial.SetF(f_euristica_->operator()(Inicial, Final));
+
+    setAbierto.push_back(Inicial);                                      //Setup completada
+    contador++;
+
+    while(!setAbierto.Empty()){
+        unsigned int winner = 0;
+        for(unsigned int i = 0; i < setAbierto.GetSize(); i++){            //Se busca la Celda con menor f_valor
+            if(setAbierto[i].GetF() < setAbierto[winner].GetF())
+                winner = i;
+        }
+
+        //Celda copia a la que tenemos en la rejilla y en el set.
+        Cell actual = world[setAbierto[winner].GetX()][setAbierto[winner].GetY()];
+
+        if((actual.GetX() == xFinal) && (yFinal == actual.GetY())){     //Es la misma celda -> Hemos llegado al final con camino óptimo
+            reconstruir_camino(result, actual, Inicial);
+            return result;
+        }
+
+        setAbierto.Erase(setAbierto.Begin() + winner);                  //Cambiamos actual de set
+        setCerrado.push_back(actual);
+
+        for(int i = 0; i < actual.sizeVecinos(); i++){                  //Miramos los vecinos de la Celda actual
+            int x = actual.getVecino(i).first;
+            int y = actual.getVecino(i).second;
+            Cell vecino = world[x][y];                              //Valor copia de la Celda vecina
+
+            if(is_in_set(vecino, setCerrado))
+                continue;
+
+            int tent_g = actual.getg_() + 1;
+
+            if(!is_in_set(vecino, setAbierto)){
+                setAbierto.push_back(vecino);
+                contador++;
+            }
+            else if(tent_g >= vecino.getg_())
+                continue;
+
+            //Este camino es el mejor! Guárdalo
+            world[vecino.getX()][vecino.getY()].setPadre(actual);
+            world[vecino.getX()][vecino.getY()].setg_(tent_g);
+            world[vecino.getX()][vecino.getY()].setf_(tent_g + (*heuristica_)(vecino, Final));
+        }
+    }
+
+    return result;
+}
+
+void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
+                         unsigned int xFinal, unsigned int yFinal){
+
+    long t0,t1;
+    //resetCamino();
+
+    t0 = clock();
+    Vector<Cell> result = Astar(xInicio, yInicio, xFinal, yFinal);
+    t1 = clock();
+
+    double time = (double(t1-t0)/CLOCKS_PER_SEC);
+
+    std::cout << "Tamaño resultado: " << result.GetSize() << std::endl
+         << "Tiempo de ejecucion: " << time;
+
+    for(unsigned int i = 0; i < result.GetSize(); i++){
+        if(world[result[i].getX()][result[i].getY()].getValor() == 2) pasajeros++;
+        for(int j = 0; j < result[i].sizeVecinos(); j++){
+            if(world[result[i].getVecino(j).first][result[i].getVecino(j).second].getValor() == 3){
+                pasajeros++;
+
+            }
+            if(pasajeros >= CAP_MAX_COCHE) break;
+        }
+        if(pasajeros >= CAP_MAX_COCHE) break;
+    }
+
+    for(unsigned int i = 0; i < result.size(); i++){
+        world[result[i].getX()][result[i].getY()].setValor(3);
+    }
+
+    cout << "\n\n" << endl;
+
+    //PrintWorld(); // o print camino
+}
+
+void World::CambiarHeuristica(bool opt){
+    delete f_euristica_;
+    if(opt){
+        //Manhattan
+        f_euristica_ = new F_Manhattan();
+    }
+    else{
+        //Euclidea
+        f_euristica_ = new F_Euclidiana();
     }
 }
