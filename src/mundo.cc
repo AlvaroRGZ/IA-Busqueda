@@ -45,13 +45,9 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
     int x, y;
     for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++){
         world[i].resize(column);
-        //std::cout<<world.GetLowerLimit() <<std::endl;
-
         for (int iter = 0; iter < world.GetUpperLimit(); iter++){
-          //std::cout<<world[i].GetLowerLimit() <<std::endl;
           world[i][iter].SetPos(i, iter);
         }
-
         world[i].SetLowerLimit(col_min);
     }
 

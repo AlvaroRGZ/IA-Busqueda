@@ -41,6 +41,7 @@ virtual void Turn45(bool colour){
     }
 }
 
+// REALIZA EL MOVIMIENTO SIN INFORMACION
 virtual void Move(void) { // se mueve en el entorno (coordenadas)
     
     if(direction == 1)
@@ -70,6 +71,8 @@ virtual void Move(void) { // se mueve en el entorno (coordenadas)
     else std::cout << "ERROR, direccion = " << direction << std::endl;
 
 }
+
+
 
 
 /**

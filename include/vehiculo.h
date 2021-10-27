@@ -24,7 +24,8 @@ class Vehicle {
 
     //virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
     //virtual void Move_8(funcion_heuristica& f) = 0; 
-    virtual void Move(void) = 0;
+    //Aplica el algoritmo A* para llegar al destino.
+    virtual void Move(void) = 0; 
 
     public:
 

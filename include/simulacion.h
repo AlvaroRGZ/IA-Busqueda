@@ -24,6 +24,7 @@ class Simulation {
     void SetMaxIter(int);
     void SetCurrIter(int);
 
+    void BusquedaAEstrella();
     void Loop(void);
     void Sort(void);
     void PrintData(void);
