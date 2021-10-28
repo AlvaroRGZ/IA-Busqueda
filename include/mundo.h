@@ -16,7 +16,7 @@ class World {
 
 protected:
 
-funcion_heuristica* f_euristica_;
+funcion_heuristica* f_heuristica_;
 int row;
 int column;
 int size;
@@ -81,15 +81,14 @@ void PrintGrid (Vehicle*);
 bool VehicleOut(Vehicle*);
 void TryPosition(Vehicle*);
 
-bool is_in_set( Cell& c, const Vector<Cell>& s);
+bool is_in_set(Cell& c, const Vector<Cell>& s);
 void reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I);
 void CambiarHeuristica(bool opt);
 
 void caminoMinimo(unsigned int xInicio, unsigned int yInicio,
                   unsigned int xFinal, unsigned int yFinal);
 
-Vector<Cell>
-Astar(unsigned int xInicio, unsigned int yInicio,
-      unsigned int xFinal, unsigned int yFinal);
+Vector<Cell> Astar(unsigned int xInicio, unsigned int yInicio,
+                   unsigned int xFinal,  unsigned int yFinal);
 
 };

@@ -184,6 +184,7 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
 //Destructor
 
 World::~World(){
+  delete f_heuristica_;
 }
 
 
@@ -348,6 +349,7 @@ bool World::is_in_set(Cell& c, const Vector<Cell>& s){
 void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){
     Cell a = actual;
     v.push_back(a);
+    //Introduce los nodos recorriendo los padres hasta llegar al inicio
     while(a.GetX() != I.GetX() || a.GetY() != I.GetY()){           //Mientras no llegue a la celda inicial
         //a = world[static_cast<unsigned int>(a.GetPadreX())][static_cast<unsigned int>(a.GetPadreY())];
         //static en principio no hace falta
@@ -369,13 +371,14 @@ Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
     Cell& Final = world[xFinal][yFinal];
 
     Inicial.SetG(0);                                                   //Cambiamos valores heuristicos de la primera Celda
-    Inicial.SetF(f_euristica_->operator()(Inicial, Final));
+    Inicial.SetF(f_heuristica_->operator()(Inicial, Final));
 
     setAbierto.push_back(Inicial);                                      //Setup completada
     contador++;
 
     while(!setAbierto.Empty()){
         unsigned int winner = 0;
+        //Seleccionar el nodo con mejor valor F
         for(unsigned int i = 0; i < setAbierto.GetSize(); i++){            //Se busca la Celda con menor f_valor
             if(setAbierto[i].GetF() < setAbierto[winner].GetF())
                 winner = i;
@@ -386,11 +389,12 @@ Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
 
         if((actual.GetX() == xFinal) && (yFinal == actual.GetY())){     //Es la misma celda -> Hemos llegado al final con camino óptimo
             reconstruir_camino(result, actual, Inicial);
+            //Construimos el camino lo devolvemos
             return result;
         }
 
         setAbierto.Erase(setAbierto.Begin() + winner);                  //Cambiamos actual de set
-        setCerrado.push_back(actual);
+        setCerrado.push_back(actual);                                   //Metemos nodo ganador en la lista cerrada
 
         for(int i = 0; i < actual.sizeVecinos(); i++){                  //Miramos los vecinos de la Celda actual
             int x = actual.getVecino(i).first;
@@ -456,13 +460,13 @@ void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
 }
 
 void World::CambiarHeuristica(bool opt){
-    delete f_euristica_;
+    delete f_heuristica_;
     if(opt){
         //Manhattan
-        f_euristica_ = new F_Manhattan();
+        f_heuristica_ = new F_Manhattan();
     }
     else{
         //Euclidea
-        f_euristica_ = new F_Euclidiana();
+        f_heuristica_ = new F_Euclidiana();
     }
 }
