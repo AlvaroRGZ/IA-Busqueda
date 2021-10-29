@@ -146,7 +146,7 @@ do {
 
 
 if ((vehicle_chosen == 8) || (vehicle_chosen == 4)) {
-    pvehicle = new Taxi(vehicle_row, vehicle_col, direction, destination_row, destination_row);
+    pvehicle = new Taxi4(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max);
 }
 
 Simulation entorno(pWorld, pvehicle, iterations);

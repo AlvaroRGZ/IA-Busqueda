@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 /*
 struct Cell {
 
@@ -13,6 +14,9 @@ struct Cell {
 };*/
 
 // PARA LA CLASE Cell.h:
+
+typedef std::pair <int,int> Posicion_t;
+typedef std::pair<double, std::pair<int, int> > pPair;
 
 class Cell {
 
@@ -30,6 +34,8 @@ class Cell {
 
     int y; //cordenada y
 
+    Posicion_t Posicion;
+
     //Coordenadas del padre
     int padre_x_;
 
@@ -44,23 +50,24 @@ class Cell {
     Cell(int row = 0, int col = 0) {
       x = row;
       y = col;
+      Posicion = std::make_pair(row,col);
     }
 
     ~Cell() {};
 
-    bool GetValue() {
+    bool GetValue() const{
       return value;
     }
 
-    char GetState() {
+    char GetState() const{
       return state;
     }
 
-    int GetX() {
+    int GetX() const{
       return x;
     }
 
-    int GetY() {
+    int GetY() const{
       return y;
     }
 
@@ -74,49 +81,64 @@ class Cell {
 
     void SetX(int x_) {
       x = x_;
+      Posicion.first = x_;
     }
 
     void SetY(int y_) {
       y = y_;
+      Posicion.second = y_;
     }
 
     void SetPos(int x_, int y_) {
       y = y_;
       x = x_;
+      Posicion = std::make_pair(x_,y_);
+    }
+
+    bool IsBlocked(void){
+      return value;
     }
 
     //Getter |setters de las f heuristicas
 
-    void SetF(int f) {
+    void SetF(double f) {
       f_ = f;
     }
-    int GetF(void) {
+    double GetF(void) const{
       return f_;
     }
 
-    void SetG(int g) {
+    void SetG(double g) {
       g_ = g;
     }
     
-    int GetG(void) {
+    double GetG(void) const{
       return g_;
     }
         
-    void SetH(int g) {
+    void SetH(double h) {
       h_ = h;
     }
 
-    int GetH(void) {
+    double GetH(void) const{
       return h_;
     }
 
 
-    int GetPadreX(void){
+    int GetPadreX(void) const{
       return padre_x_;
     }
 
-    int GetPadreY(void){
+    int GetPadreY(void) const{
       return padre_y_;
+    }
+
+    void SetPadreX(int p){
+      padre_x_ = p;
+    }
+
+    void SetPadreY(int p){
+      padre_y_ = p;
     }
 
 };

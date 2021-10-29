@@ -338,15 +338,18 @@ void World::TryPosition(Vehicle* vehicle){
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool World::is_in_set(Cell& c, const Vector<Cell>& s){
+bool World::is_in_set(Cell c, const Vector<Cell>& s){}
+  /*
     for(unsigned int i = 0; i < s.GetSize(); i++)
         if((s[i].GetX()== c.GetX()) && s[i].GetY()==c.GetY())
             return true;
 
     return false;
-}
+}*/
 
-void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){
+void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){}
+
+  /*
     Cell a = actual;
     v.push_back(a);
     //Introduce los nodos recorriendo los padres hasta llegar al inicio
@@ -356,12 +359,14 @@ void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){
         a = world[a.GetPadreX()][a.GetPadreY()];
         v.push_back(a);
     }
-}
+}*/
+
+
 
 Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
-                          unsigned int xFinal, unsigned int yFinal){
+                          unsigned int xFinal, unsigned int yFinal){}
     
-
+/*
     int contador = 0;                                                  // aparece en el codigo, es para quitar el error
     Vector<Cell> result;                                               // Almacena el camino optimo
     Vector<Cell> setAbierto;
@@ -422,10 +427,11 @@ Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
 
     return result;
 }
+*/
 
 void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
-                         unsigned int xFinal, unsigned int yFinal){
-
+                         unsigned int xFinal, unsigned int yFinal){}
+/*
     long t0,t1;
     //resetCamino();
 
@@ -458,6 +464,8 @@ void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
 
     //PrintWorld(); // o print camino
 }
+
+*/
 
 void World::CambiarHeuristica(bool opt){
     delete f_heuristica_;

@@ -4,19 +4,29 @@ class World;
 #include "stdio.h"
 #include "funciones.h"
 #include <vector>
+#include <stack>
+#include <bits/stdc++.h>
+
+#include "vector.h"
+
 #pragma once
 
 class Vehicle {
 
     protected:
 
-  
-
     int row_pos;
     int column_pos;
     int direction;
     int destination_row;
     int destination_col;
+
+    static int WorldSizeX, WorldSizeY;
+
+    //Atributos necesarios para la posicion
+
+    Posicion_t Origen, Destino;
+
     std::vector<bool> sensor;
 
     virtual void Turn45(bool) = 0;
@@ -25,12 +35,12 @@ class Vehicle {
     //virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
     //virtual void Move_8(funcion_heuristica& f) = 0; 
     //Aplica el algoritmo A* para llegar al destino.
-    virtual void Move(void) = 0; 
+    virtual void Move(World& MainGrid) = 0; 
 
     public:
 
     Vehicle();
-    Vehicle(int, int, int, int, int);
+    Vehicle(int, int, int, int, int, int, int);
     ~Vehicle();
 
     int GetRow(void); // devuelve la fila en la que se encuentra el taxi
@@ -38,6 +48,18 @@ class Vehicle {
     int GetDirection(void); // devuelve la dirección que tiene
     int GetDestinationRow(void); // devuelve la fila en la que se encuentrab la direccion de destino del vehiculo
     int GetDestinationColumn(void); // devuelve la columna en la que esta la direccion de destino
+
+    int GetWorldX(void){ return WorldSizeX; }
+    int GetWorldY(void){ return WorldSizeY; }
+
+    Posicion_t GetOrigen (void){ return Origen; }
+    Posicion_t GetDestino(void){ return Destino;}
+
+    //MEtodos necesarios para A*
+    bool isValid(int row, int col);
+    bool isUnBlocked(Vector<Vector<Cell>>& Grid, int row, int col);
+    bool isDestination(int row, int col, Posicion_t dest);
+    //void tracePath(Cell& cellDetails[WorldSizeX][WorldSizeY], Posicion_t dest); //Arreglar eso
 
     void SetRow(int);
     void SetColumn(int);

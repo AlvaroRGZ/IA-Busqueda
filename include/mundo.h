@@ -1,4 +1,4 @@
-#include "taxi.h"
+#include "taxi4.h"
 #include "vector.h"
 #include "celda.h"
 
@@ -57,6 +57,10 @@ inline Vector<Vector<Cell>>& GetWorld(void){
     return world;
 } // pasa el mundo por referencia
 
+funcion_heuristica* Get_f_Heuristica(void){
+  return f_heuristica_;
+}
+
 char GetWorldState(int, int); // devuelve el "estado" de una celda (blanco o negro)
 bool GetWorldValue(int, int); // devuelve el estado booleano de una celda
 
@@ -81,7 +85,9 @@ void PrintGrid (Vehicle*);
 bool VehicleOut(Vehicle*);
 void TryPosition(Vehicle*);
 
-bool is_in_set(Cell& c, const Vector<Cell>& s);
+
+//Pruebas
+bool is_in_set(Cell c, const Vector<Cell>& s);
 void reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I);
 void CambiarHeuristica(bool opt);
 

@@ -10,7 +10,14 @@ Vehicle::Vehicle(){
     destination_col = 7;
 }
 
-Vehicle::Vehicle(int i, int j, int direction_, int row_destination, int col_destination){
+Vehicle::Vehicle(int i, int j, int direction_, int row_destination, int col_destination, int Wx, int Wy){
+    
+    Origen = std::make_pair(i,j);
+    Destino = std::make_pair(row_destination,col_destination);
+    
+    WorldSizeX = Wx;
+    WorldSizeY = Wy;
+
     row_pos = i;
     column_pos = j;
     direction = direction_;
@@ -57,12 +64,29 @@ void Vehicle::SetDirection(int next_direction) {
 
 void Vehicle::Update(World& coord) {
     try{
-       Turn45(coord.GetWorldValue(GetRow(), GetColumn()));
+        //Turn45(coord.GetWorldValue(GetRow(), GetColumn()));
         coord.ToggleWorldValue(GetRow(), GetColumn());
         coord.SetWorldState('X', GetRow(), GetColumn());
-        Move(); 
+        Move(coord); 
     }
     catch (std::exception& e){
         throw e;
     }
+}
+
+bool Vehicle::isValid(int row, int col){
+    return (row >= 0) && (row < WorldSizeX) && (col >= 0) && (col < WorldSizeY);
+}
+
+bool Vehicle::isUnBlocked(Vector<Vector<Cell>>& Grid, int row, int col){
+
+  return !Grid[row][col].GetValue();
+
+}
+
+bool Vehicle::isDestination(int row, int col, Posicion_t dest){
+    if (row == dest.first && col == dest.second)
+        return (true);
+    else
+        return (false);
 }
