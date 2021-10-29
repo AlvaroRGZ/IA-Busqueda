@@ -63,11 +63,6 @@ void Taxi4::PrintDirection(void){ // imprime las flechas para representar las di
     }
 }
 
-double Taxi4::calculateHValue(World& Grid, int row, int col, Posicion_t dest){
-    // Return using the distance formula
-    return Grid.Get_f_Heuristica()->operator()(row,col, dest.first, dest.second);
-}
-
 void Move(World& MainGrid) {
 
   Vector<Vector<Cell>> Grid = MainGrid.GetWorld(); 
@@ -463,4 +458,9 @@ void Move(World& MainGrid) {
 
 
     }//While
+}
+
+double Taxi4::calculateHValue(World& Grid, int row, int col, Posicion_t dest){
+    // Return using the distance formula
+    return Grid.Get_f_Heuristica()->operator()(row,col, dest.first, dest.second);
 }
