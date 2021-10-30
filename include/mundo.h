@@ -1,6 +1,11 @@
-#include "taxi4.h"
+
+#pragma once
+
+//#include "taxi4.h"
+#include "vehiculo.h"
 #include "vector.h"
 #include "celda.h"
+//#include "funciones.h"
 
 #include <fstream>
 #include <iostream>
@@ -9,18 +14,17 @@
 #include <sstream>
 #include <unistd.h>
 
-
-#pragma once
+typedef Vector<Vector<Cell>> Mundo_t;
 
 class World {
 
 protected:
 
-funcion_heuristica* f_heuristica_;
+//funcion_heuristica* f_heuristica_;
 int row;
 int column;
 int size;
-Vector<Vector<Cell>> world;
+Mundo_t world;
 
 
 
@@ -53,13 +57,13 @@ inline Cell GetCell(int i, int j){
     }   
 }
 
-inline Vector<Vector<Cell>>& GetWorld(void){
+inline Mundo_t& GetWorld(void){
     return world;
 } // pasa el mundo por referencia
 
-funcion_heuristica* Get_f_Heuristica(void){
-  return f_heuristica_;
-}
+//funcion_heuristica* Get_f_Heuristica(void){
+//  return f_heuristica_;
+//}
 
 char GetWorldState(int, int); // devuelve el "estado" de una celda (blanco o negro)
 bool GetWorldValue(int, int); // devuelve el estado booleano de una celda
@@ -74,7 +78,7 @@ int GetWorldY(int, int);
 void SetWorldState(char, int, int); // establecer el "estado" de una celda
 void SetWorldValue(bool, int, int); // establecer el valor booleano de una celda
 void ToggleWorldValue(int, int);
-void SetWorld(Vector<Vector<Cell>>&);
+void SetWorld(Mundo_t&);
 
 virtual void ReSize(Vehicle*) = 0;
 

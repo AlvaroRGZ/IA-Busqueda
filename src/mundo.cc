@@ -184,7 +184,7 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
 //Destructor
 
 World::~World(){
-  delete f_heuristica_;
+  //delete f_heuristica_;
 }
 
 
@@ -467,6 +467,8 @@ void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
 
 */
 
+/*
+
 void World::CambiarHeuristica(bool opt){
     delete f_heuristica_;
     if(opt){
@@ -478,3 +480,4 @@ void World::CambiarHeuristica(bool opt){
         f_heuristica_ = new F_Euclidiana();
     }
 }
+*/

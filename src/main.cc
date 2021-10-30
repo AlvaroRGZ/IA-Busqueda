@@ -1,5 +1,6 @@
 #include "../include/simulacion.h"
 #include "../include/vector.h"
+#include "../include/taxi4.h"
 
 int main( void /* int argc, char* argv[]*/ ) {
   
@@ -133,7 +134,7 @@ do {
 
     std::cout << "Introduzca la coordenada Y de destino: ";
     std::cin >> destination_row;
-    while ((destination_row < 0) || (destination_row > row_max * 2 - 1)) {
+    while ((destination_row < 0) || (destination_row > row_max * 2 - 1)){
         std::cout << "ERROR: la coordenada Y no está dentro del mundo previamente definido." << std::endl;
         std::cout << "Introduzca una coordenada existente entre " << 0 << " y " << row_max * 2 - 1 << std:: endl;
         std::cin >> destination_row;

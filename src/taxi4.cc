@@ -63,9 +63,9 @@ void Taxi4::PrintDirection(void){ // imprime las flechas para representar las di
     }
 }
 
-void Move(World& MainGrid) {
+void Taxi4::Move(Mundo_t& Grid) {
 
-  Vector<Vector<Cell>> Grid = MainGrid.GetWorld(); 
+  //Vector<Vector<Cell>> Grid = MainGrid.GetWorld(); 
 
  // If the source is out of range
     if (isValid(Origen.first, Origen.second) == false) {
@@ -90,7 +90,7 @@ void Move(World& MainGrid) {
     // If the destination cell is the same as source cell
     if (isDestination(Origen.first, Origen.second, Destino)
         == true) {
-        printf("We are already at the destination\n");
+        printf("We are already at the destination\n");//
         return;
     }
  
@@ -225,7 +225,7 @@ void Move(World& MainGrid) {
                      && isUnBlocked(Grid, i - 1, j)
                             == true) {
                 gNew = cellDetails[i][j].GetG() + 1.0;
-                hNew = calculateHValue(MainGrid, i - 1, j, Destino);
+                hNew = calculateHValue( i - 1, j, Destino);
                 fNew = gNew + hNew;
  
                 // If it isn’t on the open list, add it to
@@ -299,7 +299,7 @@ void Move(World& MainGrid) {
                      && isUnBlocked(Grid, i + 1, j)
                             == true) {
                 gNew = cellDetails[i][j].GetG() + 1.0;
-                hNew = calculateHValue(MainGrid, i + 1, j, Destino);
+                hNew = calculateHValue(i + 1, j, Destino);
                 fNew = gNew + hNew;
  
                 // If it isn’t on the open list, add it to
@@ -373,7 +373,7 @@ void Move(World& MainGrid) {
                      && isUnBlocked(Grid, i, j + 1)
                             == true) {
                 gNew = cellDetails[i][j].GetG()+ 1.0;
-                hNew = calculateHValue(MainGrid, i, j + 1, Destino);
+                hNew = calculateHValue(i, j + 1, Destino);
                 fNew = gNew + hNew;
  
                 if (cellDetails[i][j + 1].GetF() == FLT_MAX
@@ -437,7 +437,7 @@ void Move(World& MainGrid) {
                      && isUnBlocked(Grid, i, j - 1)
                             == true) {
                 gNew = cellDetails[i][j].GetG()+ 1.0;
-                hNew = calculateHValue(MainGrid, i, j - 1, Destino);
+                hNew = calculateHValue( i, j - 1, Destino);
                 fNew = gNew + hNew;
 
                 if (cellDetails[i][j - 1].GetF() == FLT_MAX
@@ -458,9 +458,4 @@ void Move(World& MainGrid) {
 
 
     }//While
-}
-
-double Taxi4::calculateHValue(World& Grid, int row, int col, Posicion_t dest){
-    // Return using the distance formula
-    return Grid.Get_f_Heuristica()->operator()(row,col, dest.first, dest.second);
 }

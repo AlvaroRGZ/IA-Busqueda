@@ -1,19 +1,25 @@
-class World;
+#pragma once
+
+//#include "mundo.h"
+#include "vector.h"
+#include "funciones.h"
+
+//class World;
 
 #include <iostream>
 #include "stdio.h"
-#include "funciones.h"
+//#include "funciones.h"
 #include <vector>
 #include <stack>
 #include <bits/stdc++.h>
 
-#include "vector.h"
-
-#pragma once
+typedef Vector<Vector<Cell>> Mundo_t;
 
 class Vehicle {
 
-    protected:
+    public: //antes private
+
+    funcion_heuristica* f_heuristica_;
 
     int row_pos;
     int column_pos;
@@ -21,7 +27,7 @@ class Vehicle {
     int destination_row;
     int destination_col;
 
-    static int WorldSizeX, WorldSizeY;
+    int WorldSizeX, WorldSizeY;
 
     //Atributos necesarios para la posicion
 
@@ -35,7 +41,7 @@ class Vehicle {
     //virtual void Move_4(funcion_heuristica& f) = 0; // hace que avance su posición una casilla en función de su dirección
     //virtual void Move_8(funcion_heuristica& f) = 0; 
     //Aplica el algoritmo A* para llegar al destino.
-    virtual void Move(World& MainGrid) = 0; 
+    virtual void Move(Mundo_t& MainGrid) = 0; 
 
     public:
 
@@ -55,17 +61,21 @@ class Vehicle {
     Posicion_t GetOrigen (void){ return Origen; }
     Posicion_t GetDestino(void){ return Destino;}
 
+    funcion_heuristica* Get_f_Heuristica(void);
+
     //MEtodos necesarios para A*
     bool isValid(int row, int col);
-    bool isUnBlocked(Vector<Vector<Cell>>& Grid, int row, int col);
+    bool isUnBlocked(Mundo_t& Grid, int row, int col);
     bool isDestination(int row, int col, Posicion_t dest);
     //void tracePath(Cell& cellDetails[WorldSizeX][WorldSizeY], Posicion_t dest); //Arreglar eso
+
+    double calculateHValue(int row, int col, Posicion_t dest);
 
     void SetRow(int);
     void SetColumn(int);
     void SetDirection(int);
 
-    virtual void Update(World&); // hace el giro y el movimiento en funcion de la casilla
+    virtual void Update(Mundo_t& Grid); // hace el giro y el movimiento en funcion de la casilla
 
     virtual void PrintDirection(void) = 0;
 };

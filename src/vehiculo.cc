@@ -10,7 +10,8 @@ Vehicle::Vehicle(){
     destination_col = 7;
 }
 
-Vehicle::Vehicle(int i, int j, int direction_, int row_destination, int col_destination, int Wx, int Wy){
+Vehicle::Vehicle(int i, int j, int direction_, int row_destination,
+                 int col_destination, int Wx, int Wy){
     
     Origen = std::make_pair(i,j);
     Destino = std::make_pair(row_destination,col_destination);
@@ -62,11 +63,19 @@ void Vehicle::SetDirection(int next_direction) {
     direction = next_direction;
 }
 
-void Vehicle::Update(World& coord) {
+void Vehicle::Update(Mundo_t& coord) {
     try{
         //Turn45(coord.GetWorldValue(GetRow(), GetColumn()));
-        coord.ToggleWorldValue(GetRow(), GetColumn());
-        coord.SetWorldState('X', GetRow(), GetColumn());
+        //coord.ToggleWorldValue(GetRow(), GetColumn());
+        //coord.SetWorldState('X', GetRow(), GetColumn());
+
+        //Estas funciones ahora estan implementadas en el 
+        //metodo invocador de update (simulacion.cc/loop)
+
+        //Realmente el algoritmo se ejecuta totalmente de 
+        //una vez y no se ccambian los estados de las posiciones 
+        //del mundo a X, la solucion que veo es luego utilizar el 
+        //Camino construido para pintarlo
         Move(coord); 
     }
     catch (std::exception& e){
@@ -89,4 +98,13 @@ bool Vehicle::isDestination(int row, int col, Posicion_t dest){
         return (true);
     else
         return (false);
+}
+
+double Vehicle::calculateHValue(int row, int col, Posicion_t dest){
+    // Return using the distance formula
+    return Get_f_Heuristica()->operator()(row,col, dest.first, dest.second);
+}
+
+funcion_heuristica* Vehicle::Get_f_Heuristica(void){
+  return f_heuristica_;
 }

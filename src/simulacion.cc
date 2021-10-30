@@ -46,7 +46,9 @@ void Simulation::Loop(void) {
         for (int i = 0; i < GetMaxIter(); i++){
             SetCurrIter(i +1);
             grid->TryPosition(vehicle); // prueba el vehiculo a ver si esta fuera
-            vehicle->Update(*grid);
+            vehicle->Update(grid->GetWorld());
+            grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
+            grid->SetWorldState('X', vehicle->GetRow(), vehicle->GetColumn());
             grid->PrintGrid(vehicle);
             std::cout << "iteracion actual: " << GetCurrIter() << std::endl;
             PrintData();
