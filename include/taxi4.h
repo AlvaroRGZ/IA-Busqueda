@@ -7,8 +7,8 @@ class Taxi4: public Vehicle{
   //using Vehicle::Vehicle;
   public:
   Taxi4(int i, int j, int direction_, int row_destination,
-                 int col_destination, int Wx, int Wy): 
-                 Vehicle(i,j,direction_,row_destination,col_destination,Wx,Wy){}
+                 int col_destination, int Wx, int Wy, funcion_heuristica* fh): 
+                 Vehicle(i,j,direction_,row_destination,col_destination,Wx,Wy,fh){}
 
   virtual void Turn45(char colour);
 

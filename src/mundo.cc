@@ -75,7 +75,7 @@ World::World(int row_min, int row_max, int col_min, int col_max, int obstacle_ty
 
                     int random_row = rand()%(world.GetUpperLimit() - world.GetLowerLimit()) + world.GetLowerLimit();
                     int random_col = rand()%(world[random_row].GetUpperLimit() - world[random_row].GetLowerLimit()) + world[random_row].GetLowerLimit();
-
+                    
                     SetWorldState('0', random_row, random_col);
                     SetWorldValue(true, random_row, random_col);
                 }
@@ -276,7 +276,7 @@ void World::PrintWorld(void) {
 
 void World::PrintHorizontalWall(void) {   
     for(int i = world[0].GetLowerLimit(); i < world[0].GetUpperLimit() + 2; i++){
-        std::cout << "-";
+        std::cout << "⬛";
     }
     std::cout << std::endl;
 }
@@ -296,22 +296,24 @@ void World::PrintHorizontalWall(void) {
 void World::PrintGrid(Vehicle* vehicle){
     PrintHorizontalWall();
         for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++) {
-            std::cout << "|";
+            std::cout << "⬛";
             for(int j = world[i].GetLowerLimit(); j < world[i].GetUpperLimit(); j++) {
                 if((i == vehicle->GetRow()) && (j == vehicle->GetColumn()))
-                    vehicle->PrintDirection();
+                    //vehicle->PrintDirection();
+                    std::cout << "✅";
                 else if ((i == vehicle->GetDestinationRow()) && (j == vehicle->GetDestinationColumn())){
-                    std::cout << "\033[;31m\u2691\033[0m";
+                    //std::cout << "\033[;31m\u2691\033[0m";
+                    std::cout << "❌";
                 }
                 else if (GetWorldState(i,j) == '0') {
-                    std::cout << "\033[;36m0\033[0m";
+                    std::cout << "\033[;36m⬛\033[0m";
                 }else if (GetWorldState(i,j) == 'X') {
                     std::cout << "\033[;32mX\033[0m";
                 }else {
-                    std::cout <<  GetWorldState(i,j) ;
+                    std::cout << "\033[;36m⬜\033[0m";//GetWorldState(i,j) ;
                 }
             }
-            std::cout << "|" << std::endl;
+            std::cout << "⬛" << std::endl;
         }
     PrintHorizontalWall();
 }
@@ -338,7 +340,7 @@ void World::TryPosition(Vehicle* vehicle){
 
 ////////////////////////////////////////////////////////////////////////////////
 
-bool World::is_in_set(Cell c, const Vector<Cell>& s){}
+//bool World::is_in_set(Cell c, const Vector<Cell>& s){}
   /*
     for(unsigned int i = 0; i < s.GetSize(); i++)
         if((s[i].GetX()== c.GetX()) && s[i].GetY()==c.GetY())
@@ -347,7 +349,7 @@ bool World::is_in_set(Cell c, const Vector<Cell>& s){}
     return false;
 }*/
 
-void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){}
+//void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){}
 
   /*
     Cell a = actual;
@@ -363,8 +365,8 @@ void World::reconstruir_camino(Vector<Cell> &v, Cell actual, Cell I){}
 
 
 
-Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
-                          unsigned int xFinal, unsigned int yFinal){}
+//Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
+//                          unsigned int xFinal, unsigned int yFinal){}
     
 /*
     int contador = 0;                                                  // aparece en el codigo, es para quitar el error
@@ -429,8 +431,8 @@ Vector<Cell> World::Astar(unsigned int xInicio, unsigned int yInicio,
 }
 */
 
-void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
-                         unsigned int xFinal, unsigned int yFinal){}
+//void World::caminoMinimo(unsigned int xInicio, unsigned int yInicio,
+//                         unsigned int xFinal, unsigned int yFinal){}
 /*
     long t0,t1;
     //resetCamino();

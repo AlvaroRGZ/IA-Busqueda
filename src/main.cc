@@ -19,10 +19,10 @@ int main( void /* int argc, char* argv[]*/ ) {
     }
 
 if (opt == 0) {
-    std::cout <<"**** Bienvenido, este programa es está encargado de generar una simulación. ****\n";
-    std::cout <<"  Usted será el encargado de seleccionar el modo de generación de recursos aleatorio o manual, ";
+    std::cout <<"**** Bienvenido, este programa está encargado de generar una simulación. ****\n";
+    std::cout <<"  Usted será el encargado de seleccionar el modo de generación de recursos aleatorio o manualo desde un fichero, ";
     std::cout << "de esta forma se generará un entorno donde un taxi autónomo debe ser capaz de llegar al lugar objetivo ";
-    std::cout << "de la manera más eficiente posible.\n";
+    std::cout << "de la manera más eficiente posible según una función heurística.\n";
     goto Introduccion; // vuelve a la etiqueta Introduccion (arriba)
 }
 else if (opt == 1) {
@@ -57,14 +57,7 @@ else if (opt == 1) {
         std::cout << "¡Eso no era un 0, 1 o 2! ERROR. " << std::endl << "Introduzca 0 , 1 o 2: ";
         std::cin >> obstacle_chosen;
     }
-
-    std::cout << "Introduzca el número de iteraciones (debe ser > que 0): " << std:: endl;
-    std::cin >> iterations;
-    while (iterations <= 0) {
-        std::cout << "ERROR: valor menor que 0" << std::endl;
-        std::cout << "Introduzca el número de iteraciones (debe ser > que 0): " << std:: endl;
-        std::cin >> iterations;
-    }
+    
 }
 
 World* pWorld;
@@ -145,9 +138,20 @@ do {
 } while ((pWorld->GetWorldState(destination_row, destination_col)) == '0');
         // mientras la dirección de origen esté ocupada por un obstáculo se repite el proceso de instertar dirección de origen
 
+funcion_heuristica* fh;
+char opcion;
+std::cout << "elija la funcion heuristica deseada ([E]uclidiana | [M]anhattan): ";
+std::cin  >> opcion;
+
+if (opcion == 'M')
+  fh = new F_Manhattan;
+else if (opcion == 'E')
+  fh = new F_Euclidiana;
+else
+std::cout << "Debe introducir M | E " << std::endl;
 
 if ((vehicle_chosen == 8) || (vehicle_chosen == 4)) {
-    pvehicle = new Taxi4(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max);
+    pvehicle = new Taxi4(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max,fh);
 }
 
 Simulation entorno(pWorld, pvehicle, iterations);
@@ -155,7 +159,3 @@ entorno.Loop();
 
 return 0;
 }
-
-// Leyenda:
-//  blanca = false = " "
-//  negra  = true  = "X"

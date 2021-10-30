@@ -39,28 +39,21 @@ void Simulation::SetCurrIter(int iteration) {
 }
 
 void Simulation::Loop(void) {
-   grid->PrintGrid(vehicle);
-    std::cout << "Iteracion actual: " << GetCurrIter() << std::endl;
-    PrintData();
-    try {
-        for (int i = 0; i < GetMaxIter(); i++){
-            SetCurrIter(i +1);
-            grid->TryPosition(vehicle); // prueba el vehiculo a ver si esta fuera
-            vehicle->Update(grid->GetWorld());
-            grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
-            grid->SetWorldState('X', vehicle->GetRow(), vehicle->GetColumn());
-            grid->PrintGrid(vehicle);
-            std::cout << "iteracion actual: " << GetCurrIter() << std::endl;
-            PrintData();
-        }
-    }
-    catch (std::exception& e) {
-        throw e;
-    }
+
+  try {
+    
+    grid->PrintGrid(vehicle);
+    vehicle->Update(grid->GetWorld());
+    grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
+    grid->SetWorldState('X', vehicle->GetRow(),vehicle->GetColumn());
+
+  }catch (std::exception& e) {
+    throw e;
+  }
 }
 
 void Simulation::PrintData(void) {
-        std::cout << "Vehiculo: X = " << vehicle->GetRow() << " Y = " << vehicle->GetColumn() << " Direccion: " ;
-        vehicle->PrintDirection();
-        std::cout << std::endl;
+  std::cout << "Vehiculo: X = " << vehicle->GetRow() << " Y = " << vehicle->GetColumn() << " Direccion: " ;
+  vehicle->PrintDirection();
+  std::cout << std::endl;
 }

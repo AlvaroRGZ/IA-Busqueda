@@ -46,7 +46,7 @@ class Vehicle {
     public:
 
     Vehicle();
-    Vehicle(int, int, int, int, int, int, int);
+    Vehicle(int, int, int, int, int, int, int,  funcion_heuristica*);
     ~Vehicle();
 
     int GetRow(void); // devuelve la fila en la que se encuentra el taxi
@@ -63,7 +63,7 @@ class Vehicle {
 
     funcion_heuristica* Get_f_Heuristica(void);
 
-    //MEtodos necesarios para A*
+    //Metodos necesarios para A*
     bool isValid(int row, int col);
     bool isUnBlocked(Mundo_t& Grid, int row, int col);
     bool isDestination(int row, int col, Posicion_t dest);

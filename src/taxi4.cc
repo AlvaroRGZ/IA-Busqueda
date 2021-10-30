@@ -66,26 +66,25 @@ void Taxi4::PrintDirection(void){ // imprime las flechas para representar las di
 void Taxi4::Move(Mundo_t& Grid) {
 
   //Vector<Vector<Cell>> Grid = MainGrid.GetWorld(); 
-
  // If the source is out of range
     if (isValid(Origen.first, Origen.second) == false) {
-        printf("Source is invalid\n");
+        std::cout << "Source is invalid\n";
         return;
     }
  
     // If the destination is out of range
     if (isValid(Destino.first, Destino.second) == false) {
-        printf("Destination is invalid\n");
+        std::cout << "Destination is invalid\n";
         return;
     }
- 
+ /*
     // Either the source or the destination is blocked
     if (isUnBlocked(Grid, Origen.first, Origen.second) == false
         || isUnBlocked(Grid, Destino.first, Destino.second)
                == false) {
-        printf("Source or the destination is blocked\n");
+        std::cout << "Source or the destination is blocked\n";
         return;
-    }
+    }*/
  
     // If the destination cell is the same as source cell
     if (isDestination(Origen.first, Origen.second, Destino)
@@ -93,7 +92,6 @@ void Taxi4::Move(Mundo_t& Grid) {
         printf("We are already at the destination\n");//
         return;
     }
- 
     // Create a closed list and initialise it to false which
     // means that no cell has been included yet This closed
     // list is implemented as a boolean 2D array
@@ -105,7 +103,6 @@ void Taxi4::Move(Mundo_t& Grid) {
     Cell cellDetails[WorldSizeX][WorldSizeY];
  
     int i, j;
- 
     for (i = 0; i < WorldSizeX; i++) {
         for (j = 0; j < WorldSizeY; j++) {
             cellDetails[i][j].SetF(FLT_MAX);
@@ -123,15 +120,6 @@ void Taxi4::Move(Mundo_t& Grid) {
     cellDetails[i][j].SetH(0.0);
     cellDetails[i][j].SetPadreX(i);
     cellDetails[i][j].SetPadreY(j);
- 
-    /*
-     Create an open list having information as-
-     <f, <i, j>>
-     where f = g + h,
-     and i, j are the row and column index of that cell
-     Note that 0 <= i <= ROW-1 & 0 <= j <= COL-1
-     This open list is implemented as a set of pair of
-     pair.*/
     std::set<pPair> openList;
  
     // Put the starting cell on the open list and set its
@@ -152,29 +140,7 @@ void Taxi4::Move(Mundo_t& Grid) {
         i = p.second.first;
         j = p.second.second;
         closedList[i][j] = true;
- 
-        /*
-         Generating all the 8 successor of this cell
- 
-             N.W   N   N.E
-               \   |   /
-                \  |  /
-             W----Cell----E
-                  / | \
-                /   |  \
-             S.W    S   S.E
- 
-         Cell-->Popped Cell (i, j)
-         N -->  North       (i-1, j)
-         S -->  South       (i+1, j)
-         E -->  East        (i, j+1)
-         W -->  West           (i, j-1)
-         N.E--> North-East  (i-1, j+1)
-         N.W--> North-West  (i-1, j-1)
-         S.E--> South-East  (i+1, j+1)
-         S.W--> South-West  (i+1, j-1)*/
- 
-        // To store the 'g', 'h' and 'f' of the 8 successors
+
         double gNew, hNew, fNew;
  
         //----------- 1st Successor (North) ------------
@@ -188,6 +154,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 cellDetails[i - 1][j].SetPadreX(i);
                 cellDetails[i - 1][j].SetPadreY(j);
                 printf("The destination cell is found\n");
+                foundDest = true;
                 //tracePath(cellDetails, Destino);
                 //----------------------------------------------------------------------
 
@@ -201,7 +168,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                         && cellDetails[row][col].GetPadreY() == col)) {
                     Path.push(std::make_pair(row, col));
                     int temp_row = cellDetails[row][col].GetPadreX();
-                    int temp_col = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
                     row = temp_row;
                     col = temp_col;
                 }
@@ -213,9 +180,10 @@ void Taxi4::Move(Mundo_t& Grid) {
                 //printf("-> (%d,%d) ", p.first, p.second);
                 std::cout << "-> (" << p.first << "," << p.second << ") ";
                 }
+                std::cout << std::endl;
 
                 //----------------------------------------------------------------------
-                foundDest = true;
+                
                 return;
             }
             // If the successor is already on the closed
@@ -225,9 +193,8 @@ void Taxi4::Move(Mundo_t& Grid) {
                      && isUnBlocked(Grid, i - 1, j)
                             == true) {
                 gNew = cellDetails[i][j].GetG() + 1.0;
-                hNew = calculateHValue( i - 1, j, Destino);
+                hNew = calculateHValue(i - 1, j, Destino);
                 fNew = gNew + hNew;
- 
                 // If it isn’t on the open list, add it to
                 // the open list. Make the current square
                 // the parent of this square. Record the
@@ -255,27 +222,26 @@ void Taxi4::Move(Mundo_t& Grid) {
  
         // Only process this cell if this is a valid one
         if (isValid(i + 1, j) == true) {
+
             // If the destination cell is the same as the
             // current successor
             if (isDestination(i + 1, j, Destino) == true) {
                 // Set the Parent of the destination cell
                 cellDetails[i + 1][j].SetPadreX(i);
-                cellDetails[i + 1][j].SetPadreX(j);
+                cellDetails[i + 1][j].SetPadreY(j);
                 printf("The destination cell is found\n");
+                //foundDest = true;
                 //tracePath(cellDetails, Destino);
                 //----------------------------------------------------------------------
 
-                std::cout << "\nThe Path is ";
                 int row = Destino.first;
                 int col = Destino.second;
-            
                 std::stack<Posicion_t> Path;
-            
                 while (!(cellDetails[row][col].GetPadreX() == row
                         && cellDetails[row][col].GetPadreY() == col)) {
                     Path.push(std::make_pair(row, col));
                     int temp_row = cellDetails[row][col].GetPadreX();
-                    int temp_col = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
                     row = temp_row;
                     col = temp_col;
                 }
@@ -287,9 +253,10 @@ void Taxi4::Move(Mundo_t& Grid) {
                 //printf("-> (%d,%d) ", p.first, p.second);
                 std::cout << "-> (" << p.first << "," << p.second << ") ";
                 }
+                std::cout << std::endl;
 
                 //----------------------------------------------------------------------
-                foundDest = true;
+                
                 return;
             }
             // If the successor is already on the closed
@@ -328,6 +295,7 @@ void Taxi4::Move(Mundo_t& Grid) {
  
         // Only process this cell if this is a valid one
         if (isValid(i, j + 1) == true) {
+
             // If the destination cell is the same as the
             // current successor
             if (isDestination(i, j + 1, Destino) == true) {
@@ -335,6 +303,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 cellDetails[i][j + 1].SetPadreX(i);
                 cellDetails[i][j + 1].SetPadreY(j);
                 printf("The destination cell is found\n");
+                foundDest = true;
                 //tracePath(cellDetails, Destino);
                  //----------------------------------------------------------------------
 
@@ -348,7 +317,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                         && cellDetails[row][col].GetPadreY() == col)) {
                     Path.push(std::make_pair(row, col));
                     int temp_row = cellDetails[row][col].GetPadreX();
-                    int temp_col = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
                     row = temp_row;
                     col = temp_col;
                 }
@@ -360,9 +329,9 @@ void Taxi4::Move(Mundo_t& Grid) {
                 //printf("-> (%d,%d) ", p.first, p.second);
                 std::cout << "-> (" << p.first << "," << p.second << ") ";
                 }
-
+                std::cout << std::endl;
                 //----------------------------------------------------------------------
-                foundDest = true;
+                
                 return;
             }
  
@@ -395,13 +364,14 @@ void Taxi4::Move(Mundo_t& Grid) {
  
         // Only process this cell if this is a valid one
         if (isValid(i, j - 1) == true) {
-            // If the destination cell is the same as the
-            // current successor
+
             if (isDestination(i, j - 1, Destino) == true) {
-                // Set the Parent of the destination cell
+
                 cellDetails[i][j - 1].SetPadreX(i);
                 cellDetails[i][j - 1].SetPadreY(j);
                 printf("The destination cell is found\n");
+                foundDest = true;
+
                 //tracePath(cellDetails, Destino);
                 //----------------------------------------------------------------------
 
@@ -415,7 +385,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                         && cellDetails[row][col].GetPadreY() == col)) {
                     Path.push(std::make_pair(row, col));
                     int temp_row = cellDetails[row][col].GetPadreX();
-                    int temp_col = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
                     row = temp_row;
                     col = temp_col;
                 }
@@ -427,9 +397,10 @@ void Taxi4::Move(Mundo_t& Grid) {
                 //printf("-> (%d,%d) ", p.first, p.second);
                 std::cout << "-> (" << p.first << "," << p.second << ") ";
                 }
+                std::cout << std::endl;
 
                 //----------------------------------------------------------------------
-                foundDest = true;
+                
                 return;
             }
  

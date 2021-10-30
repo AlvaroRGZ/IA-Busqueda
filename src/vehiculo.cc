@@ -11,8 +11,10 @@ Vehicle::Vehicle(){
 }
 
 Vehicle::Vehicle(int i, int j, int direction_, int row_destination,
-                 int col_destination, int Wx, int Wy){
+                 int col_destination, int Wx, int Wy, funcion_heuristica* fh){
     
+
+    f_heuristica_ = fh;
     Origen = std::make_pair(i,j);
     Destino = std::make_pair(row_destination,col_destination);
     
@@ -101,7 +103,6 @@ bool Vehicle::isDestination(int row, int col, Posicion_t dest){
 }
 
 double Vehicle::calculateHValue(int row, int col, Posicion_t dest){
-    // Return using the distance formula
     return Get_f_Heuristica()->operator()(row,col, dest.first, dest.second);
 }
 
