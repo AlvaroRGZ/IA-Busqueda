@@ -1,4 +1,5 @@
 #include "mundo_acotado.h"
+#include <ctime>
 
 
 #pragma once

@@ -1,5 +1,7 @@
 #include "../include/simulacion.h"
 
+long t0, t1;
+
 // Constructores
 Simulation::Simulation() {
     max_iter = 10;
@@ -43,9 +45,14 @@ void Simulation::Loop(void) {
   try {
     
     grid->PrintGrid(vehicle);
+      t0 = clock();
     vehicle->Update(grid->GetWorld());
+      t1 = clock();
+      double time = (double(t1 - t0) / CLOCKS_PER_SEC);
+      std::cout << "\nTiempo de ejecución: " << time << std::endl;
     grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
     grid->SetWorldState('X', vehicle->GetRow(),vehicle->GetColumn());
+      std::cout << "\nTamaño del resultado: " << vehicle->Solucion_.size() << std::endl;
     grid->PrintSolucion(vehicle);
 
   }catch (std::exception& e) {
