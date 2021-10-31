@@ -300,17 +300,17 @@ void World::PrintGrid(Vehicle* vehicle){
             for(int j = world[i].GetLowerLimit(); j < world[i].GetUpperLimit(); j++) {
                 if((i == vehicle->GetRow()) && (j == vehicle->GetColumn()))
                     //vehicle->PrintDirection();
-                    std::cout << "✅";
+                    std::cout << "\U0001f696"; //🚖
                 else if ((i == vehicle->GetDestinationRow()) && (j == vehicle->GetDestinationColumn())){
                     //std::cout << "\033[;31m\u2691\033[0m";
-                    std::cout << "❌";
+                    std::cout << "\U0001f3c1"; //🏁
                 }
                 else if (GetWorldState(i,j) == '0') {
-                    std::cout << "\033[;36m⬛\033[0m";
+                    std::cout << "\033[;36m\U0001f7e5\033[0m"; //🟥
                 }else if (GetWorldState(i,j) == 'X') {
                     std::cout << "\033[;32mX\033[0m";
                 }else {
-                    std::cout << "\033[;36m⬜\033[0m";//GetWorldState(i,j) ;
+                    std::cout << "\033[;36m\U0001f7e9\033[0m";//GetWorldState(i,j) ; //🟩
                 }
             }
             std::cout << "⬛" << std::endl;
