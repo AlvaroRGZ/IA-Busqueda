@@ -321,6 +321,39 @@ void World::PrintGrid(Vehicle* vehicle){
     PrintHorizontalWall();
 }
 
+void World::PrintSolucion(Vehicle* vehicle){
+    while (!vehicle->Solucion_.empty()){
+      Posicion_t aux = vehicle->Solucion_.top();
+      SetWorldState('X',aux.first, aux.second);
+      vehicle->Solucion_.pop();
+    }
+
+    PrintHorizontalWall();
+        for(int i = world.GetLowerLimit(); i < world.GetUpperLimit(); i++) {
+            std::cout << "⬛";
+            for(int j = world[i].GetLowerLimit(); j < world[i].GetUpperLimit(); j++) {
+                //if((i == vehicle->GetRow()) && (j == vehicle->GetColumn()))
+                    //vehicle->PrintDirection();
+                  if((i == vehicle->GetOrigen().first) && (j == vehicle->GetOrigen().second))
+                    std::cout << "🍀";
+                else if ((i == vehicle->GetDestinationRow()) && (j == vehicle->GetDestinationColumn())){
+                    //std::cout << "\033[;31m\u2691\033[0m";
+                    std::cout << "🚩";
+                }
+                else if (GetWorldState(i,j) == '0') {
+                    std::cout << "\033[;36m⬛\033[0m";
+                }else if (GetWorldState(i,j) == 'X') {
+                    std::cout << "🚖";   //🚖🟩🟥✅";\U0001f7e9 es el verde
+                }else {
+                    std::cout << "\033[;36m⬜\033[0m";//GetWorldState(i,j) ;
+                }
+            }
+            std::cout << "⬛" << std::endl;
+        }
+    PrintHorizontalWall();
+}
+
+
 bool World::VehicleOut(Vehicle* vehicle) {
     bool condition = false;
     if((vehicle->GetRow() >= world.GetUpperLimit()) || (vehicle->GetColumn() >= world.GetUpperLimit()) || (vehicle->GetRow() < world.GetLowerLimit()) || (vehicle->GetColumn() < world.GetLowerLimit()))

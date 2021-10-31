@@ -28,6 +28,7 @@ class Vehicle {
     int destination_col;
 
     int WorldSizeX, WorldSizeY;
+    std::stack<Posicion_t> Solucion_;
 
     //Atributos necesarios para la posicion
 

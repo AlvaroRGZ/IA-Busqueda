@@ -46,7 +46,7 @@ void Simulation::Loop(void) {
     vehicle->Update(grid->GetWorld());
     grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
     grid->SetWorldState('X', vehicle->GetRow(),vehicle->GetColumn());
-    grid->PrintGrid(vehicle);
+    grid->PrintSolucion(vehicle);
 
   }catch (std::exception& e) {
     throw e;

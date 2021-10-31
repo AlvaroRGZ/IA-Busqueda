@@ -85,6 +85,7 @@ virtual void ReSize(Vehicle*) = 0;
 void PrintWorld(void); // imprime la matriz sola
 void PrintHorizontalWall(void); // imprime un muro horizontal
 void PrintGrid (Vehicle*);
+void PrintSolucion(Vehicle* vehicle);
 
 bool VehicleOut(Vehicle*);
 void TryPosition(Vehicle*);

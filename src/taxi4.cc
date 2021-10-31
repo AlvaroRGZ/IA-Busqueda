@@ -174,6 +174,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -245,8 +246,9 @@ void Taxi4::Move(Mundo_t& Grid) {
                     row = temp_row;
                     col = temp_col;
                 }
-            
+
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -323,6 +325,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -391,6 +394,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
