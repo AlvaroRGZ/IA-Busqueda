@@ -53,6 +53,7 @@ void Simulation::Loop(void) {
     grid->ToggleWorldValue(vehicle->GetRow(), vehicle->GetColumn());
     grid->SetWorldState('X', vehicle->GetRow(),vehicle->GetColumn());
       std::cout << "\nTamaño del resultado: " << vehicle->Solucion_.size() << std::endl;
+      std::cout << "\nNodos expandidos: " << vehicle->GetExpansion() << std::endl;
     grid->PrintSolucion(vehicle);
 
   }catch (std::exception& e) {

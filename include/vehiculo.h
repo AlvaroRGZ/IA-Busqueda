@@ -26,6 +26,7 @@ class Vehicle {
     int direction;
     int destination_row;
     int destination_col;
+    int expansion;
 
     int WorldSizeX, WorldSizeY;
     std::stack<Posicion_t> Solucion_;
@@ -55,6 +56,7 @@ class Vehicle {
     int GetDirection(void); // devuelve la dirección que tiene
     int GetDestinationRow(void); // devuelve la fila en la que se encuentrab la direccion de destino del vehiculo
     int GetDestinationColumn(void); // devuelve la columna en la que esta la direccion de destino
+    int GetExpansion(void);
 
     int GetWorldX(void){ return WorldSizeX; }
     int GetWorldY(void){ return WorldSizeY; }
@@ -75,6 +77,7 @@ class Vehicle {
     void SetRow(int);
     void SetColumn(int);
     void SetDirection(int);
+    void AddExpansion(void);
 
     virtual void Update(Mundo_t& Grid); // hace el giro y el movimiento en funcion de la casilla
 

@@ -208,7 +208,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                     || cellDetails[i - 1][j].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i - 1, j)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i - 1][j].SetF(fNew);
                     cellDetails[i - 1][j].SetG(gNew);
@@ -283,6 +283,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                     || cellDetails[i + 1][j].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i + 1, j)));
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i + 1][j].SetF(fNew);
                     cellDetails[i + 1][j].SetG(gNew);
@@ -352,7 +353,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                     || cellDetails[i][j + 1].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i, j + 1)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i][j + 1].SetF(fNew);
                     cellDetails[i][j + 1].SetG(gNew);
@@ -419,7 +420,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                     || cellDetails[i][j - 1].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i, j - 1)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i][j - 1].SetF(fNew);
                     cellDetails[i][j - 1].SetG(gNew);

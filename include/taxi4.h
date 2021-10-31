@@ -18,5 +18,5 @@ class Taxi4: public Vehicle{
   virtual void Move(Mundo_t& MainGrid);
 
   virtual void PrintDirection(void);
-
+  
 };

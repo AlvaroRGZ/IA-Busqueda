@@ -64,8 +64,6 @@ World* pWorld;
 pWorld = new MundoAcotado(row_min, row_max, col_min, col_max, obstacle_chosen);
 
 std::cout << std::endl;
-std::cout << pWorld->GetWorldX(5,5) << std::endl;
-std::cout << pWorld->GetWorldY(5,5) << std::endl;
 
 Vehicle* pvehicle;
 
@@ -96,7 +94,7 @@ while ((vehicle_row < 0) || (vehicle_row > row_max * 2 - 1)) {
 
 vehicle_row += row_min;
 
-if (vehicle_chosen == 8) {
+/*if (vehicle_chosen == 8) {
     std::cout << "Introduzca la dirección inicial del taxi (1, 2, 3, 4, 5, 6, 7, 8): " << std:: endl;
     std::cin >> direction;
     while ((direction < 1) || (direction > 8)) {
@@ -112,9 +110,9 @@ if (vehicle_chosen == 8) {
         std::cout << "Introduzca la dirección inicial del taxi (1, 2, 3, 4): " << std:: endl;
         std::cin >> direction;
     }
-}
+}*/
 
-do {
+//do {
     std::cout << "Introduzca la coordenada X de destino: ";
     std::cin >> destination_col;
     while ((destination_col < 0) || (destination_col > col_max * 2 - 1)) {
@@ -135,7 +133,7 @@ do {
     
     destination_row += row_min;
     
-} while ((pWorld->GetWorldState(destination_row, destination_col)) == '0');
+//} while ((pWorld->GetWorldState(destination_row, destination_col)) == '0');
         // mientras la dirección de origen esté ocupada por un obstáculo se repite el proceso de instertar dirección de origen
 
 funcion_heuristica* fh;

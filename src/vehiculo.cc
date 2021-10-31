@@ -53,6 +53,14 @@ int Vehicle::GetDirection(void) {
     return direction;
 }
 
+int Vehicle::GetExpansion(void) {
+    return expansion;
+}
+
+void Vehicle::AddExpansion(void) {
+    expansion += 1;
+}
+
 void Vehicle::SetRow(int row) {
     row_pos = row;
 }
