@@ -302,9 +302,8 @@ void World::PrintGrid(Vehicle* vehicle){
                     //vehicle->PrintDirection();
                     if((i == vehicle->GetOrigen().first) && (j == vehicle->GetOrigen().second)){
                       std::cout << "🍀";
-                    }else{
-                      std::cout << "🚖"; 
-                    }
+                    }else
+                      std::cout << "🚖";   //🚖🟩🟥✅";\U0001f7e9 es el verde
                 else if ((i == vehicle->GetDestinationRow()) && (j == vehicle->GetDestinationColumn())){
                     //std::cout << "\033[;31m\u2691\033[0m";
                     std::cout << "🚩";
