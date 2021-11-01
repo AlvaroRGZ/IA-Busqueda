@@ -367,7 +367,7 @@ void World::TryPosition(Vehicle* vehicle){
         temp = GetCell(vehicle->GetRow(), vehicle->GetColumn());
     }
     catch(std::exception()){
-        std::cout << "el taxi se ha salido del mundo!!!" << std::endl;
+        std::cout << "ERROR: el taxi ha abandonado el entorno de simulación" << std::endl;
         throw(std::exception());
     }
 }

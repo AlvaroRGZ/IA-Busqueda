@@ -496,7 +496,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             }
         }
-        //----------- 6th Successor (West) ------------
+        //----------- 6th Successor (South - East) ------------
  
         // Only process this cell if this is a valid one
         if (isValid(i + 1, j + 1) == true) {
@@ -562,7 +562,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             }
         }
-        //----------- 7th Successor (West) ------------
+        //----------- 7th Successor (South - West) ------------
  
         // Only process this cell if this is a valid one
         if (isValid(i + 1, j - 1) == true) {
@@ -629,7 +629,7 @@ void Taxi8::Move(Mundo_t& Grid) {
             }
         }
 
-        //----------- 8th Successor (West) ------------
+        //----------- 8th Successor (North East) ------------
  
         // Only process this cell if this is a valid one
         if (isValid(i - 1, j + 1) == true) {

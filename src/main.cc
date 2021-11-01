@@ -11,7 +11,7 @@ int main( void /* int argc, char* argv[]*/ ) {
 
     Introduccion: // etiqueta para "goto"
     std::cout << "**** Pulse 0 para desplegar la información del programa. ****\n";
-    std::cout << "**** Pulse 1 para comenzar con la ejecución. ****\n";
+    std::cout << "**** Pulse 1 para comenzar con la ejecución. ****************\n";
     std::cout << "Introduzca 0 o 1: ";
     std::cin >> opt;
     while ((opt != 0) && (opt != 1)) {
@@ -20,10 +20,10 @@ int main( void /* int argc, char* argv[]*/ ) {
     }
 
 if (opt == 0) {
-    std::cout <<"**** Bienvenido, este programa está encargado de generar una simulación. ****\n";
-    std::cout <<"  Usted será el encargado de seleccionar el modo de generación de recursos aleatorio o manualo desde un fichero, ";
-    std::cout << "de esta forma se generará un entorno donde un taxi autónomo debe ser capaz de llegar al lugar objetivo ";
-    std::cout << "de la manera más eficiente posible según una función heurística.\n";
+    std::cout <<"\n**** Bienvenido, este programa está encargado de generar una simulación. ****\n";
+    std::cout <<"   - Usted será el encargado de seleccionar el modo de generación de recursos aleatorio, manual o desde un fichero. " << std::endl;
+    std::cout << "De esta forma, se generará un entorno donde un taxi autónomo (🚖) debe ser capaz de llegar al lugar de destino (🚩) " << std::endl;
+    std::cout << "de la manera más eficiente posible según una función heurística.\n\n";
     goto Introduccion; // vuelve a la etiqueta Introduccion (arriba)
 }
 else if (opt == 1) {
@@ -139,7 +139,7 @@ vehicle_row += row_min;
 
 funcion_heuristica* fh;
 char opcion;
-std::cout << "elija la funcion heuristica deseada ([E]uclidiana | [M]anhattan): ";
+std::cout << "Elija la funcion heuristica deseada ([E]uclidiana | [M]anhattan): ";
 std::cin  >> opcion;
 
 if (opcion == 'M')
