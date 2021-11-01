@@ -77,14 +77,14 @@ void Taxi8::Move(Mundo_t& Grid) {
         std::cout << "Destination is invalid\n";
         return;
     }
- 
-    //Either the source or the destination is blocked
+ /*
+    // Either the source or the destination is blocked
     if (isUnBlocked(Grid, Origen.first, Origen.second) == false
         || isUnBlocked(Grid, Destino.first, Destino.second)
                == false) {
         std::cout << "Source or the destination is blocked\n";
-      return;
-    }
+        return;
+    }*/
  
     // If the destination cell is the same as source cell
     if (isDestination(Origen.first, Origen.second, Destino)
@@ -174,6 +174,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -207,7 +208,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                     || cellDetails[i - 1][j].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i - 1, j)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i - 1][j].SetF(fNew);
                     cellDetails[i - 1][j].SetG(gNew);
@@ -245,8 +246,9 @@ void Taxi8::Move(Mundo_t& Grid) {
                     row = temp_row;
                     col = temp_col;
                 }
-            
+
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -281,6 +283,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                     || cellDetails[i + 1][j].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i + 1, j)));
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i + 1][j].SetF(fNew);
                     cellDetails[i + 1][j].SetG(gNew);
@@ -323,6 +326,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -349,7 +353,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                     || cellDetails[i][j + 1].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i, j + 1)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i][j + 1].SetF(fNew);
                     cellDetails[i][j + 1].SetG(gNew);
@@ -391,6 +395,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             
                 Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
                 while (!Path.empty()) {
                 std::pair<int, int> p = Path.top();
                 Path.pop();
@@ -415,7 +420,7 @@ void Taxi8::Move(Mundo_t& Grid) {
                     || cellDetails[i][j - 1].GetF() > fNew) {
                     openList.insert(std::make_pair(
                         fNew, std::make_pair(i, j - 1)));
- 
+                    AddExpansion();
                     // Update the details of this cell
                     cellDetails[i][j - 1].SetF(fNew);
                     cellDetails[i][j - 1].SetG(gNew);
@@ -425,6 +430,273 @@ void Taxi8::Move(Mundo_t& Grid) {
                 }
             }
         }
+        //----------- 5th Successor (North - West) ------------
+ 
+        // Only process this cell if this is a valid one
+        if (isValid(i - 1, j - 1) == true) {
+
+            if (isDestination(i - 1, j - 1, Destino) == true) {
+
+                cellDetails[i - 1][j - 1].SetPadreX(i);
+                cellDetails[i - 1][j - 1].SetPadreY(j);
+                printf("The destination cell is found\n");
+                foundDest = true;
+
+                //tracePath(cellDetails, Destino);
+                //----------------------------------------------------------------------
+
+                std::cout << "\nThe Path is ";
+                int row = Destino.first;
+                int col = Destino.second;
+            
+                std::stack<Posicion_t> Path;
+            
+                while (!(cellDetails[row][col].GetPadreX() == row
+                        && cellDetails[row][col].GetPadreY() == col)) {
+                    Path.push(std::make_pair(row, col));
+                    int temp_row = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
+                    row = temp_row;
+                    col = temp_col;
+                }
+            
+                Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
+                while (!Path.empty()) {
+                std::pair<int, int> p = Path.top();
+                Path.pop();
+                //printf("-> (%d,%d) ", p.first, p.second);
+                std::cout << "-> (" << p.first << "," << p.second << ") ";
+                }
+                std::cout << std::endl;
+
+                //----------------------------------------------------------------------
+                
+                return;
+            }
+ 
+            else if (closedList[i - 1][j - 1] == false
+                     && isUnBlocked(Grid, i - 1, j - 1)
+                            == true) {
+                gNew = cellDetails[i][j].GetG()+ 1.0;
+                hNew = calculateHValue( i - 1, j - 1, Destino);
+                fNew = gNew + hNew;
+
+                if (cellDetails[i - 1][j - 1].GetF() == FLT_MAX
+                    || cellDetails[i - 1][j - 1].GetF() > fNew) {
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i - 1, j - 1)));
+                    AddExpansion();
+                    // Update the details of this cell
+                    cellDetails[i - 1][j - 1].SetF(fNew);
+                    cellDetails[i - 1][j - 1].SetG(gNew);
+                    cellDetails[i - 1][j - 1].SetH(hNew);
+                    cellDetails[i - 1][j - 1].SetPadreX(i);
+                    cellDetails[i - 1][j - 1].SetPadreY(j);
+                }
+            }
+        }
+        //----------- 6th Successor (West) ------------
+ 
+        // Only process this cell if this is a valid one
+        if (isValid(i + 1, j + 1) == true) {
+
+            if (isDestination(i + 1, j + 1, Destino) == true) {
+
+                cellDetails[i + 1][j + 1].SetPadreX(i);
+                cellDetails[i + 1][j + 1].SetPadreY(j);
+                printf("The destination cell is found\n");
+                foundDest = true;
+
+                //tracePath(cellDetails, Destino);
+                //----------------------------------------------------------------------
+
+                std::cout << "\nThe Path is ";
+                int row = Destino.first;
+                int col = Destino.second;
+            
+                std::stack<Posicion_t> Path;
+            
+                while (!(cellDetails[row][col].GetPadreX() == row
+                        && cellDetails[row][col].GetPadreY() == col)) {
+                    Path.push(std::make_pair(row, col));
+                    int temp_row = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
+                    row = temp_row;
+                    col = temp_col;
+                }
+            
+                Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
+                while (!Path.empty()) {
+                std::pair<int, int> p = Path.top();
+                Path.pop();
+                //printf("-> (%d,%d) ", p.first, p.second);
+                std::cout << "-> (" << p.first << "," << p.second << ") ";
+                }
+                std::cout << std::endl;
+
+                //----------------------------------------------------------------------
+                
+                return;
+            }
+ 
+            else if (closedList[i + 1][j + 1] == false
+                     && isUnBlocked(Grid, i + 1, j + 1)
+                            == true) {
+                gNew = cellDetails[i][j].GetG()+ 1.0;
+                hNew = calculateHValue( i + 1, j + 1, Destino);
+                fNew = gNew + hNew;
+
+                if (cellDetails[i + 1][j + 1].GetF() == FLT_MAX
+                    || cellDetails[i + 1][j + 1].GetF() > fNew) {
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i + 1, j + 1)));
+                    AddExpansion();
+                    // Update the details of this cell
+                    cellDetails[i + 1][j + 1].SetF(fNew);
+                    cellDetails[i + 1][j + 1].SetG(gNew);
+                    cellDetails[i + 1][j + 1].SetH(hNew);
+                    cellDetails[i + 1][j + 1].SetPadreX(i);
+                    cellDetails[i + 1][j + 1].SetPadreY(j);
+                }
+            }
+        }
+        //----------- 7th Successor (West) ------------
+ 
+        // Only process this cell if this is a valid one
+        if (isValid(i + 1, j - 1) == true) {
+
+            if (isDestination(i + 1, j - 1, Destino) == true) {
+
+                cellDetails[i + 1][j - 1].SetPadreX(i);
+                cellDetails[i + 1][j - 1].SetPadreY(j);
+                printf("The destination cell is found\n");
+                foundDest = true;
+
+                //tracePath(cellDetails, Destino);
+                //----------------------------------------------------------------------
+
+                std::cout << "\nThe Path is ";
+                int row = Destino.first;
+                int col = Destino.second;
+            
+                std::stack<Posicion_t> Path;
+            
+                while (!(cellDetails[row][col].GetPadreX() == row
+                        && cellDetails[row][col].GetPadreY() == col)) {
+                    Path.push(std::make_pair(row, col));
+                    int temp_row = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
+                    row = temp_row;
+                    col = temp_col;
+                }
+            
+                Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
+                while (!Path.empty()) {
+                std::pair<int, int> p = Path.top();
+                Path.pop();
+                //printf("-> (%d,%d) ", p.first, p.second);
+                std::cout << "-> (" << p.first << "," << p.second << ") ";
+                }
+                std::cout << std::endl;
+
+                //----------------------------------------------------------------------
+                
+                return;
+            }
+ 
+            else if (closedList[i + 1][j - 1] == false
+                     && isUnBlocked(Grid, i + 1, j - 1)
+                            == true) {
+                gNew = cellDetails[i][j].GetG()+ 1.0;
+                hNew = calculateHValue( i + 1, j - 1, Destino);
+                fNew = gNew + hNew;
+
+                if (cellDetails[i + 1][j - 1].GetF() == FLT_MAX
+                    || cellDetails[i + 1][j - 1].GetF() > fNew) {
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i + 1, j - 1)));
+                    AddExpansion();
+                    // Update the details of this cell
+                    cellDetails[i + 1][j - 1].SetF(fNew);
+                    cellDetails[i + 1][j - 1].SetG(gNew);
+                    cellDetails[i + 1][j - 1].SetH(hNew);
+                    cellDetails[i + 1][j - 1].SetPadreX(i);
+                    cellDetails[i + 1][j - 1].SetPadreY(j);
+                }
+            }
+        }
+
+        //----------- 8th Successor (West) ------------
+ 
+        // Only process this cell if this is a valid one
+        if (isValid(i - 1, j + 1) == true) {
+
+            if (isDestination(i - 1, j + 1, Destino) == true) {
+
+                cellDetails[i - 1][j + 1].SetPadreX(i);
+                cellDetails[i - 1][j + 1].SetPadreY(j);
+                printf("The destination cell is found\n");
+                foundDest = true;
+
+                //tracePath(cellDetails, Destino);
+                //----------------------------------------------------------------------
+
+                std::cout << "\nThe Path is ";
+                int row = Destino.first;
+                int col = Destino.second;
+            
+                std::stack<Posicion_t> Path;
+            
+                while (!(cellDetails[row][col].GetPadreX() == row
+                        && cellDetails[row][col].GetPadreY() == col)) {
+                    Path.push(std::make_pair(row, col));
+                    int temp_row = cellDetails[row][col].GetPadreX();
+                    int temp_col = cellDetails[row][col].GetPadreY();
+                    row = temp_row;
+                    col = temp_col;
+                }
+            
+                Path.push(std::make_pair(row, col));
+                Solucion_ = Path;
+                while (!Path.empty()) {
+                std::pair<int, int> p = Path.top();
+                Path.pop();
+                //printf("-> (%d,%d) ", p.first, p.second);
+                std::cout << "-> (" << p.first << "," << p.second << ") ";
+                }
+                std::cout << std::endl;
+
+                //----------------------------------------------------------------------
+                
+                return;
+            }
+ 
+            else if (closedList[i - 1][j + 1] == false
+                     && isUnBlocked(Grid, i - 1, j + 1)
+                            == true) {
+                gNew = cellDetails[i][j].GetG()+ 1.0;
+                hNew = calculateHValue( i - 1, j + 1, Destino);
+                fNew = gNew + hNew;
+
+                if (cellDetails[i - 1][j + 1].GetF() == FLT_MAX
+                    || cellDetails[i - 1][j + 1].GetF() > fNew) {
+                    openList.insert(std::make_pair(
+                        fNew, std::make_pair(i - 1, j + 1)));
+                    AddExpansion();
+                    // Update the details of this cell
+                    cellDetails[i - 1][j + 1].SetF(fNew);
+                    cellDetails[i - 1][j + 1].SetG(gNew);
+                    cellDetails[i - 1][j + 1].SetH(hNew);
+                    cellDetails[i - 1][j + 1].SetPadreX(i);
+                    cellDetails[i - 1][j + 1].SetPadreY(j);
+                }
+            }
+        }
+
+
     }//While
     if (foundDest == false)
         std::cout << "No se pudo encontrar el camino" << std::endl;

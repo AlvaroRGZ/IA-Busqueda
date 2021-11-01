@@ -430,8 +430,7 @@ void Taxi4::Move(Mundo_t& Grid) {
                 }
             }
         }
-
-
-
     }//While
+    if (foundDest == false)
+        std::cout << "No se pudo encontrar el camino" << std::endl;
 }

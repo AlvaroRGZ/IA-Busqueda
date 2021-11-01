@@ -1,6 +1,7 @@
 #include "../include/simulacion.h"
 #include "../include/vector.h"
 #include "../include/taxi4.h"
+#include "../include/taxi8.h"
 
 int main( void /* int argc, char* argv[]*/ ) {
   
@@ -148,8 +149,12 @@ else if (opcion == 'E')
 else
 std::cout << "Debe introducir M | E " << std::endl;
 
-if ((vehicle_chosen == 8) || (vehicle_chosen == 4)) {
-    pvehicle = new Taxi4(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max,fh);
+if (vehicle_chosen == 4) {
+  pvehicle = new Taxi4(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max,fh);
+}else if (vehicle_chosen == 8){
+  pvehicle = new Taxi8(vehicle_row, vehicle_col, direction, destination_row, destination_row, row_max, col_max,fh);
+}else{
+  std::cout << "Opcion de taxi incorrecta" << std::endl;
 }
 
 Simulation entorno(pWorld, pvehicle, iterations);
